@@ -17,5 +17,6 @@ module.exports = {
     'react-refresh/only-export-components': 'warn',
     'semi': 'error',
     'indent': ['error', 2, { 'SwitchCase': 1 }],
+    'react/prop-types': 'off'
   },
 };
