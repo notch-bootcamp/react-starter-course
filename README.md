@@ -1,1 +1,1 @@
-# devcademy2023-education-react
+# react-starter-course
