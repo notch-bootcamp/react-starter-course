@@ -13,7 +13,7 @@
 function genericFunction<T>(arg: T): T {
   return arg;
 };
-_number = genericFunction<number>(1);
+let _number = genericFunction<number>(1);
 
 class GenericClass<T> {
   arg: T;
@@ -60,7 +60,9 @@ let _numberObjectCopy = deepCopyObject(_numberObject);
 
 // ## How to type a class?
 
-function createObject<T extends object, CArgs extends any[]>(
+type AnyClass = new (...args: any[]) => any
+
+function createObject<T extends object, CArgs extends unknown[]>(
   _class: new (...args: CArgs) => T,
   _args: CArgs
 ): T {
@@ -99,7 +101,7 @@ function DropdownFC<T extends string | number = string>(props: DropdownProps<T>)
   return <></>;
 }
 
-const Element = ({ opts1, opts2 }: { opts1: string[], opts2: number[] }) => {
+const Element = ({ opts1: optsStr, opts2: optsNum }: { opts1: string[], opts2: number[] }) => {
   const _onChange1 = React.useCallback((val: string) => console.log(val), []);
   // const _onChange1: (val: string) => void
 
@@ -111,12 +113,12 @@ const Element = ({ opts1, opts2 }: { opts1: string[], opts2: number[] }) => {
 
   return (
     <>
-      <DropdownCC options={opts1} onChange={_onChange1} />
-      <DropdownCC<number> options={opts2} onChange={_onChange2} />
-      <DropdownCC options={opts2} onChange={_onChange2} defaultValue={1} />
-      <DropdownFC options={opts1} onChange={_onChange1} />
-      <DropdownFC<number> options={opts2} onChange={_onChange2} />
-      <DropdownFC options={opts2} onChange={_onChange2} defaultValue={1} />
+      <DropdownCC options={optsStr} onChange={_onChange1} />
+      <DropdownCC<number> options={optsNum} onChange={_onChange2} />
+      <DropdownCC options={optsNum} onChange={_onChange2} defaultValue={1} />
+      <DropdownFC options={optsStr} onChange={_onChange1} />
+      <DropdownFC<number> options={optsNum} onChange={_onChange2} />
+      <DropdownFC options={optsNum} onChange={_onChange2} defaultValue={1} />
     </>
   )
 }

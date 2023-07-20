@@ -33,11 +33,10 @@ let _obj1: object = { a: 'value' }; // don't, any non primitive
 let _obj2: {} = { a: 'value' }; // don't, basically any
 let _obj3: { [key: string]: any; } = { a: 'value' };
 let _obj4: Record<string, any> = { a: 'value' };
-let _obj5: { a: string; } = { a: 'value' };
+let _obj5: { a?: string; } = { a: undefined };
 
 type UnknownObject = Record<string, unknown>;
 let _obj6: UnknownObject = { a: 'value' };
-
 
 // ---
 
@@ -53,13 +52,19 @@ let _fun2: (...args: any[]) => any = (x) => x++; // you can do better
 let _fun3: (x: any) => any = (x) => x++;
 let _fun4: (x: number) => number = (x) => x++;
 
+let _fun4a = (x: number): void => { x++ };
+
+function _fun4b(x: number): number {
+  return x++;
+}
+
 // Remember: functions are objects
 let _fun5: object = (x) => x++;
 let _fun6: {} = (x) => x++;
 
 // Bur now needs cast to call:
-let _callableFun5 = _fun5 as Function;
-_callableFun5();
+let _callableFun5 = _fun5 as () => unknown;
+let a =_callableFun5();
 
 
 // ---
@@ -77,7 +82,7 @@ function getA1(obj: any) {
 
 function getA2(obj: unknown) {
   // obj.a; // -> Property 'a' does not exist on type 'unknown'.ts(2339)
-  if (isObjWithA(obj)) {
+  if (typeof obj === 'object' && obj !== null && 'a' in obj) {
     // obj is { a: unknown } in this block
     obj.a;
   }
@@ -138,7 +143,6 @@ let _tuple3: [string, number, string?] = ['val1', 2];
 let _tuple4: [string, ...number[]] = ['val1', 2, 3, 4];
 let _tuple5: [string, ...number[], string] = ['val1', 2, 3, 4, 'val5']; // TS >= 4.2
 let _tuple6: [first: string, second: string] = ['val1', 'val2'];
-
 
 // ---
 

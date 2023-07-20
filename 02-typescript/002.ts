@@ -191,8 +191,8 @@ function old_getChildId(parent: any): number | null {
   return parent.child.id;
 }
 
-function new_getChildId(parent: any): number | null {
-  return parent?.child?.name ?? null;
+function new_getChildId(parent: any): number {
+  return parent?.child?.id ?? -1;
 }
 
 globalThis.notSureIfThisFunctionExists?.();
@@ -206,6 +206,20 @@ globalThis.notSureIfThisFunctionExists?.();
 
 
 // ## Function overloads
+
+function plus(a: number, b: number): number;
+function plus(a: string, b: string): string;
+
+function plus(a: number | string, b: number | string): number | string {
+  if (typeof a === 'number' && typeof b === 'number') {
+    return a + b;
+  } else if (typeof a === 'string' && typeof b === 'string') {
+    return `${a}${b}`;
+  }
+  throw Error('invalid arguments');
+}
+
+plus(2, 2)
 
 function len(s: string): number;
 function len(arr: any[]): number;

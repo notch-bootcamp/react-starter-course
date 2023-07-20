@@ -166,7 +166,7 @@ type StandardIOStreamDict = {
   [name in StandardIOStreamName]: (typeof StandardIOStream)[name]
 };
 const standardIOStreamDict: StandardIOStreamDict = {
-  STDIN: StandardIOStream.STDIN,
+  STDIN: 0,
   STDOUT: StandardIOStream.STDOUT,
   STDERR: StandardIOStream.STDERR,
   // STDERR: -1, -> be careful, this is valid
@@ -182,10 +182,16 @@ const standardIOStreamDict: StandardIOStreamDict = {
 
 // ## as const
 
-let _john2 = { firstName: 'John', lastName: 'Smith' } as const;
+let _john2 = { firstName: 'John', lastName: 'Smith', dob: { day: 22, month: 1, year: 1990 } } as const;
+let _john3 = { firstName: 'John', lastName: 'Smith', dob: { day: 22, month: 1, year: 1990 } };
 
 type JohnSmith = typeof _john2;
 // { readonly firstName: "John"; readonly lastName: "Smith"; }
+
+type ReadonlyJohn = Readonly<typeof _john3>;
+let _john4 = { firstName: 'John', lastName: 'Smith', dob: { day: 22, month: 1, year: 1990 } } as ReadonlyJohn;
+
+_john3.firstName = '';
 
 // _john2.firstName = ''
 // result: Cannot assign to 'firstName' because it is a read-only property.ts(2540)
